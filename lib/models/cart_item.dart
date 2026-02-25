@@ -1,3 +1,4 @@
+// lib/models/cart_item.dart
 import 'product.dart';
 
 class CartItem {
@@ -9,5 +10,6 @@ class CartItem {
     this.quantity = 1,
   });
 
+  // Calculated property
   double get totalPrice => product.price * quantity;
 }

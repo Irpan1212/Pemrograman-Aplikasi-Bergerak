@@ -1,3 +1,4 @@
+// lib/pages/product_list_page.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/product.dart';
@@ -9,6 +10,7 @@ class ProductListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Dummy products
     final products = [
       Product(
         id: '1',
@@ -58,6 +60,7 @@ class ProductListPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Products'),
         actions: [
+          // Cart badge
           Consumer<CartModel>(
             builder: (context, cart, child) {
               return Stack(
@@ -68,7 +71,7 @@ class ProductListPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const CartPage(),
+                          builder: (context) => const CartPage(),
                         ),
                       );
                     },
@@ -88,7 +91,7 @@ class ProductListPage extends StatelessWidget {
                           minHeight: 16,
                         ),
                         child: Text(
-                          cart.itemCount.toString(),
+                          '${cart.itemCount}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
@@ -116,11 +119,11 @@ class ProductListPage extends StatelessWidget {
         itemCount: products.length,
         itemBuilder: (context, index) {
           final product = products[index];
-
           return Card(
             elevation: 3,
             child: Column(
               children: [
+  
                 Expanded(
                   child: Container(
                     color: Colors.deepPurple.shade50,
@@ -160,26 +163,22 @@ class ProductListPage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton.icon(
                           onPressed: () {
+                            // Add to cart using Provider!
                             context.read<CartModel>().addItem(product);
 
+                            // Show feedback
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(
-                                  '${product.name} ditambahkan ke cart!',
-                                ),
+                                content: Text('${product.name} ditambahkan ke cart!'),
                                 duration: const Duration(seconds: 1),
                                 behavior: SnackBarBehavior.floating,
                               ),
                             );
                           },
                           icon: const Icon(Icons.add_shopping_cart, size: 16),
-                          label: const Text(
-                            'Add',
-                            style: TextStyle(fontSize: 12),
-                          ),
+                          label: const Text('Add', style: TextStyle(fontSize: 12)),
                           style: ElevatedButton.styleFrom(
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 8),
                           ),
                         ),
                       ),
